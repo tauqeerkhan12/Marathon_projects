@@ -166,6 +166,7 @@ class Donarinfo extends React.Component {
                     <div className="alert alert-danger" style={{ display: this.props.red }}>
                         <strong>Invalid Fields!</strong>
                     </div>
+                    
                     <center> <Link to={{ pathname: './donarslist' }} onClick={this.props.off_alert}><img src={backicon} alt="back" /></Link></center>
                 </div>
 
