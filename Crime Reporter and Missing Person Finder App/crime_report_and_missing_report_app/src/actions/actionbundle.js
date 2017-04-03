@@ -20,4 +20,11 @@ export default class ActionBundle {
         }
     }
 
+    static CRIME_INFO(info){
+        return {
+            type: 'CRIME_INFO',
+            reported_crime: info
+        }
+    }
+
 }

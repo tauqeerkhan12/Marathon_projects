@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-import './login.css';
+import './style.css';
 import * as firebase from 'firebase';
 import { browserHistory } from 'react-router';
 

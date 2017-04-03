@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-import './register.css';
+import './style.css';
 import * as firebase from 'firebase';
 
 export default class Register extends React.Component {

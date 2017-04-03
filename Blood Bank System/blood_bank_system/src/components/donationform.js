@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import ActionBundle from '../actions/actionbundle.js';
 import { Store } from '../store/store.js';
 import { connect } from 'react-redux';
-import './donationform.css';
+import './style.css';
 import icon from '../../icons/signout.png';
 import backicon from '../../icons/back.png';
 
