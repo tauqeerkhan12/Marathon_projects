@@ -23,7 +23,8 @@ export default function CollectInfo(state = INTIAL_STATE, action) {
             return state = { forGreen: 'none', forRed: 'block' }
 
         case 'CRIME_INFO':
-            console.log(action.reported_crime);
+            // console.log(action.reported_crime);
+            firebase.database().ref('/CrimesReported').push(action.reported_crime);
             return state = { forGreen: 'block', forRed: 'none' }
         default:
             return state;

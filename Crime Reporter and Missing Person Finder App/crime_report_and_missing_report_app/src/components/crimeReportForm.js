@@ -15,7 +15,7 @@ function mapStateToComp(state) {
 function mapDispatchToComp(dispatch) {
     return {
         crime_info: (info) => { Store.dispatch(ActionBundle.CRIME_INFO(info)) },
-         off_alert: () => { Store.dispatch(ActionBundle.OFF_ALERT()) },
+        off_alert: () => { Store.dispatch(ActionBundle.OFF_ALERT()) },
         invalid_fields: () => { Store.dispatch(ActionBundle.INVALID_FIELDS()) }
     }
 }
@@ -86,15 +86,23 @@ class CrimeReportFormComponent extends React.Component {
 
             this.props.crime_info(info)
 
+            this.setState({
+                crimeDate: '',
+                victimName: '',
+                crimeType: '',
+                crimeArea: '',
+                cnicNo: '',
+                phoneNo: ''
+            })
         }
         else {
             this.props.invalid_fields();
         }
     }
 
-    componentWillUnmount(){
-        if(this.props.location.pathname == './crimeReportForm'){
-                this.props.off_alert();
+    componentWillUnmount() {
+        if (this.props.location.pathname == './crimeReportForm') {
+            this.props.off_alert();
         }
     }
 
@@ -105,7 +113,7 @@ class CrimeReportFormComponent extends React.Component {
                     <div className="row">
                         <form className="form-horizontal">
                             <fieldset>
-
+                                
                                 <legend>Crime Report Form</legend>
 
                                 <div className="form-group">
@@ -128,13 +136,13 @@ class CrimeReportFormComponent extends React.Component {
                                 <div className="form-group">
                                     <label className="col-md-4 control-label" htmlFor="textinput">Crime type</label>
                                     <div className="col-md-4" >
-                                        <select className="form-control form-control-selectpicker" onChange={this.saveCrimeType.bind(this)}>   
+                                        <select className="form-control form-control-selectpicker" onChange={this.saveCrimeType.bind(this)}>
                                             <option value=" ">Select type</option>
                                             <option value="Fraud‎">Fraud‎ </option>
                                             <option value="Robbery">Robbery</option>
-                                            <option value="Murder">Murder </option>
+                                            <option value="Murder">Stalking </option>
                                             <option value="Theft">Theft‎ </option>
-                                            <option value="Kidnapping‎">Kidnapping‎  </option>
+                                            <option value="Kidnapping‎">Kidnapping‎ </option>
                                             <option value="Torture‎">Torture‎ </option>
                                             <option value="Burglary">Burglary</option>
                                             <option value="Assault">Assault</option>
@@ -187,8 +195,8 @@ class CrimeReportFormComponent extends React.Component {
                                     <div className="alert alert-success" style={{ display: this.props.green }}>
                                         <strong>Succesfully</strong><span className="alert-link"> Register!</span>
                                     </div>
-                               
-                                    <div className="alert alert-danger" style={{ display: this.props.red}}>
+
+                                    <div className="alert alert-danger" style={{ display: this.props.red }}>
                                         <strong>Invalid Fields!</strong>
                                     </div>
                                 </div>

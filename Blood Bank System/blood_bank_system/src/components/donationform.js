@@ -94,7 +94,7 @@ class Donarinfo extends React.Component {
     render() {
         return (
             <div>
-                <div className="menu">
+                <div className="menu" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)' }}>
                     <div className="container-fluid">
                         <div className="navbar-header">
                             <a href="#">Blood Bank System</a>
@@ -107,12 +107,12 @@ class Donarinfo extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div style={{ paddingTop: '90px' }} className="container">
+                <div style={{ paddingTop: '90px'}} className="container">
                     <div className="row">
                         <div className="col-md-6 col-md-offset-3">
 
-                            <div className="well text-center">
-                                <p style={{ fontSize: '35px' }}>Blood Donation Form</p>
+                            <div className="well text-center" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)' }}>
+                                <p style={{ fontSize: '35px', color: 'white' }}>Blood Donation Form</p>
                                 <form>
                                     <div className="form-group">
                                         <input className="form-control" onChange={this.saveCNIC.bind(this)} id="id_nome" maxLength="100" name="nome" placeholder="CNIC no." type="text" />
@@ -153,7 +153,7 @@ class Donarinfo extends React.Component {
                                     </textarea>*/}
                                     </div>
 
-                                    <input type="button" onClick={this.listMe.bind(this)} className="btn btn-default" value='List me' />
+                                    <input type="button" style={{ backgroundColor: '#1CA347', color: 'white', border: '0px'}} onClick={this.listMe.bind(this)} className="btn btn-default" value='List me' />
                                 </form>
                             </div>
                         </div>

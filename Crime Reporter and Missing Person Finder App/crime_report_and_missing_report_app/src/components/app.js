@@ -41,12 +41,12 @@ export class App extends React.Component {
                 </div>
               </div>
             </center>
-            <div style={{ height: '100vh', marginTop: '40px' }} id="pageContent">
-              <div>{this.props.children}</div>
-            </div>
+
           </div>
         </div>
-
+        <div style={{margin: '0px auto' ,width: '800px', marginTop: '70px' }} id="pageContent">
+          <div>{this.props.children}</div>
+        </div>
 
       </div>
     );

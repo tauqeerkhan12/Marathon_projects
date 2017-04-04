@@ -6,8 +6,7 @@ export class ComplaintReportForm extends React.Component{
     render(){
         return (
             <div>
-                complaint Report form
-                
+                complaint Report form                
             </div>
 
         )

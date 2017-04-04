@@ -64,12 +64,12 @@ export default class Login extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="container" style={{ marginTop: '90px' }}>
+            <div >
+                <div className="container" style={{ marginTop: '90px'}}>
                     <div className="row">
                         <div className="col-md-6 col-md-offset-3">
-                            <div className="panel panel-login">
-                                <div className="panel-heading">
+                            <div className="panel panel-login" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)' }}>
+                                <div className="panel-heading" style={{ backgroundColor: '' }}>
                                     <div className="row">
                                         <div className="col-xs-6">
                                             <a href="#" className="active" id="login-form-link">Login</a>
@@ -93,7 +93,7 @@ export default class Login extends React.Component {
                                                 </div>
                                                 <div className="form-group text-center">
                                                     <input type="checkbox" className="" name="remember" id="remember" />
-                                                    <label htmlFor="remember"> Remember Me</label>
+                                                    <label style={{color: 'white'}} htmlFor="remember"> Remember Me</label>
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="row">
@@ -109,7 +109,7 @@ export default class Login extends React.Component {
                                                     <div className="row">
                                                         <div className="col-lg-12">
                                                             <div className="text-center">
-                                                                <a href='#' className="forgot-password">Forgot Password?</a>
+                                                                <a href='#' className="forgot-password" style={{color: 'white'}}>Forgot Password?</a>
                                                             </div>
                                                         </div>
                                                     </div>

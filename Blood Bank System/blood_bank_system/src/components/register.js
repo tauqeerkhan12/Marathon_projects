@@ -76,7 +76,7 @@ export default class Register extends React.Component {
                 <div className="container" style={{ marginTop: '90px' }}>
                     <div className="row">
                         <div className="col-md-6 col-md-offset-3">
-                            <div className="panel panel-login">
+                            <div className="panel panel-login" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)' }}>
                                 <div className="panel-heading">
                                     <div className="row">
                                         <div className="col-xs-6">
