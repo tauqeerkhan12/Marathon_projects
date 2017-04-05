@@ -9,7 +9,7 @@ export class App extends React.Component {
   render() {
     return (
       <div>
-        <div className="navbar navbar-default navbar-fixed-top">
+        <div className="navbar navbar-default navbar-fixed-top" style={{ marginBottom: '50px' }}>
           <div className="container">
             <div className="navbar-header">
               <a className="navbar-brand" href="#">Sindh Police</a>
@@ -44,7 +44,8 @@ export class App extends React.Component {
 
           </div>
         </div>
-        <div style={{margin: '0px auto' ,width: '800px', marginTop: '70px' }} id="pageContent">
+        <div style={{clear: 'both', width: '300px', height: '85px'}}></div>
+        <div style={{margin: '0px auto' ,width: '800px' }} id="pageContent">
           <div>{this.props.children}</div>
         </div>
 
