@@ -49,24 +49,32 @@ export default class Register extends React.Component {
 
         if (this.state.nameTextbox !== '' && this.state.emailTextbox !== '' && this.state.passwordTextbox !== '' && this.state.confirmTextbox !== '') {
 
-            var obj = {
-                userName: this.state.nameTextbox,
-                userEmail: this.state.emailTextbox,
-                userPass: this.state.passwordTextbox
+            if (this.state.emailTextbox.search('@') != -1 && this.state.emailTextbox.search('.com') != -1) {
+
+                var obj = {
+                    userName: this.state.nameTextbox,
+                    userEmail: this.state.emailTextbox,
+                    userPass: this.state.passwordTextbox
+                }
+                // console.log(obj);
+
+                firebase.database().ref().push(obj);
+
+                this.setState({
+                    nameTextbox: '',
+                    emailTextbox: '',
+                    passwordTextbox: '',
+                    confirmTextbox: ''
+                })
+
+                alert("Successfully Registered!! Now Try Login");
             }
-            // console.log(obj);
-
-            firebase.database().ref().push(obj);
-
-            this.setState({
-                nameTextbox: '',
-                emailTextbox: '',
-                passwordTextbox: '',
-                confirmTextbox: ''
-            })
-
-            alert("Successfully Registered!! Now Try Login");
-
+            else {
+                alert('Invalid Fields');
+            }
+        }
+        else {
+            alert('Invalid Fields');
         }
     }
 
@@ -98,7 +106,7 @@ export default class Register extends React.Component {
                                                     <input type="text" onChange={this.saveName.bind(this)} name="username" id="username" className="form-control" placeholder="Username" value={this.state.nameTextbox} />
                                                 </div>
                                                 <div className="form-group">
-                                                    <input type="email" onChange={this.saveEmail.bind(this)} name="email" id="email" className="form-control" placeholder="Email Address" value={this.state.emailTextbox} />
+                                                    <input type="email" onChange={this.saveEmail.bind(this)} name="email" id="email" className="form-control" placeholder="Email Address" value={this.state.emailTextbox} required='required' />
                                                 </div>
                                                 <div className="form-group">
                                                     <input type="password" onChange={this.savePassword.bind(this)} name="password" id="password" className="form-control" placeholder="Password" value={this.state.passwordTextbox} />

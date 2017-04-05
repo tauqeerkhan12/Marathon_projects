@@ -5,6 +5,7 @@ import Register from './components/register.js';
 import Login from './components/login.js';
 import Donarlist from './components/donarslist.js';
 import {Donationform} from './components/donationform.js';
+import {RequiredBlood} from './components/requiredBlood.js';
 import { Provider } from 'react-redux';
 import { Store } from './store/store.js';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
@@ -28,6 +29,7 @@ ReactDOM.render(
         <Route path='./register' component={Register}></Route>
         <Route path='./donarslist' component={Donarlist}></Route>
         <Route path='./donationform' component={Donationform}></Route>
+        <Route path='./requiredBlood' component={RequiredBlood}></Route>
       </Route>
     </Router>
   </Provider>,

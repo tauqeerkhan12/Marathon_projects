@@ -20,4 +20,18 @@ export default class ActionBundle {
         }
     }
 
+    static SORTING_ARRAY(item){
+        return{
+            type: 'SORTING_ARRAY',
+            unSortedAry: item
+        }
+    }
+
+    static SEND_SELECTED_BLOOD(Bval, unSt){
+      return {
+          type: 'SEND_SELECTED_BLOOD',
+          userBloodGroup: Bval,
+          unSortedAryFromFB: unSt
+      }   
+    }
 }

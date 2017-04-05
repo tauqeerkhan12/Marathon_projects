@@ -10,9 +10,8 @@ import backicon from '../../icons/back.png';
 
 function mapStateToComp(state) {
     return {
-        green: state.forGreen,
-        red: state.forRed
-
+        green: state.CollectInfo.forGreen,
+        red: state.CollectInfo.forRed
     }
 }
 
@@ -20,7 +19,7 @@ function mapDispatchToComp(dispatch) {
     return {
         add_me_to_list: (objInfo) => { Store.dispatch(ActionBundle.ADD_ME_TO_LIST(objInfo)) },
         off_alert: () => { Store.dispatch(ActionBundle.OFF_ALERT()) },
-        invalid_fields: ()=>{ Store.dispatch(ActionBundle.INVALID_FIELDS()) }
+        invalid_fields: () => { Store.dispatch(ActionBundle.INVALID_FIELDS()) }
     }
 }
 
@@ -54,7 +53,7 @@ class Donarinfo extends React.Component {
         this.setState({
             userEmail: textbox2
         })
-         this.props.off_alert();
+        this.props.off_alert();
     }
 
     saveContact(event) {
@@ -62,7 +61,7 @@ class Donarinfo extends React.Component {
         this.setState({
             userContact: textbox3
         })
-         this.props.off_alert();
+        this.props.off_alert();
     }
 
     saveAddress(event) {
@@ -70,7 +69,7 @@ class Donarinfo extends React.Component {
         this.setState({
             userAddress: textbox4
         })
-         this.props.off_alert();
+        this.props.off_alert();
     }
 
     saveBlood(event) {
@@ -78,15 +77,22 @@ class Donarinfo extends React.Component {
         this.setState({
             userBlood: textbox5
         })
-         this.props.off_alert();
+        this.props.off_alert();
     }
 
     listMe() {
         if (this.state.userAddress !== '' && this.state.userBlood !== '' && this.state.userCnic !== '' && this.state.userContact !== '' && this.state.userEmail !== '' && this.state.userName !== '') {
-            this.props.add_me_to_list(this.state)
+
+            if (this.state.userEmail.search('@') != -1 && this.state.userEmail.search('.com') != -1) {
+
+                this.props.add_me_to_list(this.state)
+            }
+            else {
+                this.props.invalid_fields()
+            }
         }
         else {
-                this.props.invalid_fields()
+            this.props.invalid_fields()
         }
     }
 
@@ -107,7 +113,7 @@ class Donarinfo extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div style={{ paddingTop: '90px'}} className="container">
+                <div style={{ paddingTop: '90px' }} className="container">
                     <div className="row">
                         <div className="col-md-6 col-md-offset-3">
 
@@ -153,7 +159,7 @@ class Donarinfo extends React.Component {
                                     </textarea>*/}
                                     </div>
 
-                                    <input type="button" style={{ backgroundColor: '#1CA347', color: 'white', border: '0px'}} onClick={this.listMe.bind(this)} className="btn btn-default" value='List me' />
+                                    <input type="button" style={{ backgroundColor: '#1CA347', color: 'white', border: '0px' }} onClick={this.listMe.bind(this)} className="btn btn-default" value='List me' />
                                 </form>
                             </div>
                         </div>
@@ -166,7 +172,7 @@ class Donarinfo extends React.Component {
                     <div className="alert alert-danger" style={{ display: this.props.red }}>
                         <strong>Invalid Fields!</strong>
                     </div>
-                    
+
                     <center> <Link to={{ pathname: './donarslist' }} onClick={this.props.off_alert}><img src={backicon} alt="back" /></Link></center>
                 </div>
 
@@ -178,5 +184,5 @@ class Donarinfo extends React.Component {
     }
 }
 
-export const Donationform = connect(mapStateToComp, mapDispatchToComp,)(Donarinfo);
+export const Donationform = connect(mapStateToComp, mapDispatchToComp, )(Donarinfo);
 

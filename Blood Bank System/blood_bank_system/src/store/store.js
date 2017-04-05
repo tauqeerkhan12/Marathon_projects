@@ -1,5 +1,12 @@
 
 import { createStore } from 'redux';
 import CollectInfo from './reducers/collectinfo.js';
+import Filter from './reducers/filter.js';
+import { combineReducers } from 'redux';
 
-export const Store = createStore(CollectInfo);
+const rootReducer = combineReducers({
+    CollectInfo,
+    Filter
+})
+
+export const Store = createStore(rootReducer);

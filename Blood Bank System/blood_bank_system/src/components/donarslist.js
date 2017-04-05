@@ -32,12 +32,11 @@ export default class Donarlist extends React.Component {
             })
         })
     }
-// http://placehold.it/80
     dynamicList() {
         return (
             <div>
-                {   
-                    this.state.list.map((info, index) => { return <li key={index} style={{ cursor: 'pointer' }} className="list-group-item"> <div className="row"> <div className="col-xs-2 col-md-1"> <img src={Dp} className="img-circle img-responsive" alt="" /> </div> <div className="col-xs-10 col-md-11"> <div style={{ fontSize: '17px' }}><a href="http://bootsnipp.com/BhaumikPatel/snippets/Obgj">{info.userName}</a></div> <div className="mic-info">Blood Group {info.userBlood}</div><div><span className="mic-info">Phone: </span>{info.userContact}</div><div><span className="mic-info">CNIC: </span>{info.userCnic}</div><div><span className="mic-info">Address: </span>{info.userAddress}</div>  </div> </div> </li> })
+                {
+                    this.state.list.map((info, index) => { return <li key={index} style={{ cursor: 'pointer' }} className="list-group-item"> <div className="row"> <div className="col-xs-2 col-md-1"> <img src={Dp} className="img-circle img-responsive" alt="" /> </div> <div className="col-xs-10 col-md-11"> <div style={{ fontSize: '17px' }}><a href="#">{info.userName}</a></div> <div className="mic-info">Blood Group {info.userBlood}</div><div><span className="mic-info">Phone: </span>{info.userContact}</div><div><span className="mic-info">CNIC: </span>{info.userCnic}</div><div><span className="mic-info">Address: </span>{info.userAddress}</div>  </div> </div> </li> })
                 }
             </div>
         )
@@ -63,19 +62,23 @@ export default class Donarlist extends React.Component {
 
                 <div className="container" style={{ paddingTop: '100px' }}>
                     <div className="row">
+
+                        <Link className="btn btn-danger" role="button" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)', fontSize: '17px', marginBottom: '10px' }} to={{ pathname: './donationform' }}>Donate Blood</Link>
+
+                        <Link className="btn btn-danger" role="button" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)', fontSize: '17px', marginBottom: '10px', marginLeft: '5px' }} to={{ pathname: './requiredBlood' }}>Required Blood</Link>
+
                         <div className="panel panel-default widget">
                             <div className="panel-heading" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)' }}>
-                                <h3 className="panel-title" style={{ color: 'white',  fontWeight: 'bold' }}>Donars List</h3>
+                                <h3 className="panel-title" style={{ color: 'white', fontWeight: 'bold' }}>Donars List</h3>
                                 <span className="label label-info" style={{ width: '50px', fontSize: '12px' }}>{this.state.list.length}</span>
                             </div>
                             <div className="panel-body">
-                               
+
                                 <ul className="list-group">
                                     {this.dynamicList()}
                                     {console.log("render")}
                                 </ul>
 
-                                <Link className="btn btn-primary btn-sm btn-block" role="button" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)', fontSize: '17px' }} to={{ pathname: './donationform' }}>Donate Blood</Link>
                             </div>
                         </div>
                     </div>
