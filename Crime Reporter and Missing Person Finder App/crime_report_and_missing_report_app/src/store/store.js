@@ -1,5 +1,12 @@
 
 import { createStore } from 'redux';
 import CollectInfo from './reducers/collectinfo.js';
+import OpenFeature from './reducers/openFeature.js';
+import { combineReducers } from 'redux';
 
-export const Store = createStore(CollectInfo);
+const rootReducer = combineReducers({
+    CollectInfo,
+    OpenFeature
+})
+
+export const Store = createStore(rootReducer);

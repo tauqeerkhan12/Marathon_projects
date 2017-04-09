@@ -1,127 +1,144 @@
 import React from 'react';
 import './style.css';
-import {Store} from '../store/store.js';
-import ActionBundle from '../actions/actionbundle.js';
-import { connect } from 'react-redux';
-
-function mapStateToComp(state) {
-    return {
-        green: state.forGreen,
-        red: state.forRed
-    }
-}
-
-function mapDispatchToComp(dispatch) {
-    return {
-        add_me_to_list: (userInfo) => { Store.dispatch(ActionBundle.ADD_ME_TO_LIST(userInfo)) },
-        off_alert: () => { Store.dispatch(ActionBundle.OFF_ALERT()) },
-        invalid_fields: () => { Store.dispatch(ActionBundle.INVALID_FIELDS()) }
-    }
-}
+import { Link } from 'react-router';
+import * as firebase from 'firebase';
+import { browserHistory } from 'react-router';
 
 
-class Signup extends React.Component {
+export class Signup extends React.Component{
 
     constructor(props) {
         super(props)
 
         this.state = {
-            userName: '',
-            userEmail: '',
-            userPassword: ''
+            nameTextbox: '',
+            emailTextbox: '',
+            passwordTextbox: '',
+            confirmTextbox: ''
         }
     }
 
     saveName(event) {
-        var inputValue = event.target.value;
+        var name = event.target.value;
         this.setState({
-            userName: inputValue
+            nameTextbox: name
         })
-        this.props.off_alert();
     }
 
     saveEmail(event) {
-        var inputValue = event.target.value;
+        var email = event.target.value;
         this.setState({
-            userEmail: inputValue
+            emailTextbox: email
         })
-        this.props.off_alert();
     }
 
     savePassword(event) {
-        var inputValue = event.target.value;
+        var password = event.target.value;
         this.setState({
-            userPassword: inputValue
+            passwordTextbox: password
         })
-        this.props.off_alert();
     }
 
-    sendAll() {
+    saveConfirmPassword(event) {
+        var Confpassword = event.target.value;
+        this.setState({
+            confirmTextbox: Confpassword
+        })
+    }
 
-        var userInfo = {
-            userName: this.state.userName,
-            userEmail: this.state.userEmail,
-            userPassword: this.state.userPassword
-        }
+    saveAllToDB() {
 
-        if (this.state.userName !== '' && this.state.userEmail !== '' && this.state.userPassword !== '') {
-            // console.log(userInfo);
-            this.props.add_me_to_list(userInfo);
+        if (this.state.nameTextbox !== '' && this.state.emailTextbox !== '' && this.state.passwordTextbox !== '' && this.state.confirmTextbox !== '') {
+
+            if (this.state.emailTextbox.search('@') !== -1 && this.state.emailTextbox.search('.com') !== -1) {
+
+                var obj = {
+                    userName: this.state.nameTextbox,
+                    userEmail: this.state.emailTextbox,
+                    userPass: this.state.passwordTextbox
+                }
+                console.log(obj);
+                
+                firebase.database().ref('/RegisteredUsers').push(obj);
+
+                this.setState({
+                    nameTextbox: '',
+                    emailTextbox: '',
+                    passwordTextbox: '',
+                    confirmTextbox: ''
+                })
+
+                alert("Successfully Registered!! Now Try Login");
+                browserHistory.push('./login');
+            }
+            else {
+                alert('Invalid Fields');
+            }
         }
         else {
-                this.props.invalid_fields();
+            alert('Invalid Fields');
         }
     }
 
-    componentWillUnmount(){
-        if(this.props.location.pathname === './signup'){
-                this.props.off_alert();
-                // console.log(this.props.location.pathname);
-        }
-    }
-
-    render() {
+    render(){
         return (
             <div>
-                <div className="row centered-form">
-                    <div className="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
-                        <div className="panel panel-default">
-                            <div className="panel-heading">
-                                <h3 className="panel-title">Please sign up</h3>
-                            </div>
-                            <div className="panel-body">
-                                <form role="form">
-                                    <div className="form-group">
-                                        <input type="text" onChange={this.saveName.bind(this)} name="username" id="usernaam" className="form-control input-sm" placeholder="UserName" />
+                <div className="container" style={{ marginTop: '90px' }}>
+                    <div className="row">
+                        <div className="col-md-6 col-md-offset-3">
+                            <Link className="btn btn-danger" role="button" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)', fontSize: '17px', marginBottom: '10px', width: '100%'}} to={{ pathname: '/' }}>Return to Dashboard</Link>
+                            <div className="panel panel-login" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)' }}>
+                                <div className="panel-heading">
+                                    <div className="row">
+                                        <div className="col-xs-6">
+                                            {/*<a href="#" className="active" id="login-form-link">Login</a>*/}
+                                            <Link id="login-form-link" to={{ pathname: './login' }}>Login</Link>
+                                        </div>
+                                        <div className="col-xs-6">
+                                            <a className="active" id="register-form-link" style={{ cursor: 'pointer' }}>Sign up</a>
+                                            {/*<Link id="register-form-link" to={{ pathname: './register' }}>register</Link>*/}
+                                        </div>
                                     </div>
-                                    <div className="form-group">
-                                        <input type="email" onChange={this.saveEmail.bind(this)} name="email" id="email" className="form-control input-sm" placeholder="Email Address" />
-                                    </div>
-                                    {/*<div className="row">*/}
-                                    {/*<div className="col-xs-6 col-sm-6 col-md-6">*/}
-                                    <div className="form-group">
-                                        <input type="password" onChange={this.savePassword.bind(this)} name="password" id="password" className="form-control input-sm" placeholder="Password" />
-                                    </div>
-                                    {/*</div>*/}
-                                    {/*</div>*/}
-                                    <input type='button' onClick={this.sendAll.bind(this)} className="btn btn-info btn-block" value='Register' />
-                                </form>
-                                <br />
-                                <div className="alert alert-success" style={{ display: this.props.green }}>
-                                    <strong>Succesfully</strong><span className="alert-link"> Register!</span>
+                                    <hr />
                                 </div>
+                                <div className="panel-body">
+                                    <div className="row">
+                                        <div className="col-lg-12">
+                                            <form id="register-form" role="form">
+                                                <div className="form-group">
+                                                    <input type="text" onChange={this.saveName.bind(this)} name="username" id="username" className="form-control" placeholder="Username" value={this.state.nameTextbox} />
+                                                </div>
+                                                <div className="form-group">
+                                                    <input type="email" onChange={this.saveEmail.bind(this)} name="email" id="email" className="form-control" placeholder="Email Address" value={this.state.emailTextbox} required='required' />
+                                                </div>
+                                                <div className="form-group">
+                                                    <input type="password" onChange={this.savePassword.bind(this)} name="password" id="password" className="form-control" placeholder="Password" value={this.state.passwordTextbox} />
+                                                </div>
+                                                <div className="form-group">
+                                                    <input type="password" onChange={this.saveConfirmPassword.bind(this)} name="confirm-password" id="confirm-password" className="form-control" placeholder="Confirm Password" value={this.state.confirmTextbox} />
+                                                </div>
+                                                <div className="form-group">
+                                                    <div className="row">
+                                                        <div className="col-sm-6 col-sm-offset-3">
+                                                            {/*<input type="submit" style={{ backgroundColor: '#1CA347', color: 'white' }} name="register-submit" id="register-submit" className="form-control btn btn-register" value="Register Now" />*/}
 
-                                <div className="alert alert-danger" style={{ display: this.props.red }}>
-                                    <strong>Invalid Fields!</strong>
+                                                            <Link id="register-submit" style={{ backgroundColor: '#1CA347', color: 'white' }} className="form-control btn btn-register" onClick={this.saveAllToDB.bind(this)}>Register Now</Link>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
+
+                </div>
+
+            </div>
         )
     }
 }
 
-export const Register = connect(mapStateToComp, mapDispatchToComp)(Signup);
