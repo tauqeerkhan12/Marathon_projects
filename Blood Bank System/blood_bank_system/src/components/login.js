@@ -2,17 +2,35 @@
 import React from 'react';
 import { Link } from 'react-router';
 import './style.css';
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { Store } from '../store/store.js';
+// import ActionBundle from '../actions/actionbundle.js';
+import loginMiddleware from '../store/middlewares/loginMiddleware.js';
 
-export default class Login extends React.Component {
+// i am not using loginStatus
+// function mapStateToComp(state) {
+//     return {
+//         loginStatus: state.loginReducer   
+//     }
+// }
+
+function mapDispatchToComp(dispatch) {
+    return {
+        isUserCorrect: (val) => { Store.dispatch(loginMiddleware.login(val)) }
+    }
+}
+
+class LoginComp extends React.Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
             USERNAME: '',
-            PASSWORD: ''
+            PASSWORD: '',
+            checkForLogin: false
         }
     }
 
@@ -30,42 +48,54 @@ export default class Login extends React.Component {
         })
     }
 
-    logIn() {
+    componentDidUpdate() {
+        console.log(Store.getState().loginReducer)
+        if (Store.getState().loginReducer === true) {
+            browserHistory.push("./donarslist")
+        }
+    }
 
-        var checkForLogin = false;
+    logIn() {
 
         var obj = {
             USERNAME: this.state.USERNAME,
             PASSWORD: this.state.PASSWORD
         }
 
-        var refer = firebase.database().ref();
-        refer.once('value', (snap) => {
-            snap.forEach((usersnap) => {
-                var nameInfo = usersnap.val().userName;
-                var passInfo = usersnap.val().userPass;
+        this.props.isUserCorrect(obj)
 
-                if (obj.USERNAME === nameInfo && obj.PASSWORD === passInfo) {
-                    checkForLogin = true;
-                    localStorage.setItem("locallySavedName", obj.USERNAME);
-                    console.log("yes");
-                }
-            })
-
-                if (checkForLogin === true) {
-                    browserHistory.push("./donarslist")
-                }
-                else {
-                    alert('Incorrect Information');
-                }
+        this.setState({
+            checkForLogin: Store.getState().loginReducer
         })
+
+
+        // var refer = firebase.database().ref();
+        // refer.once('value', (snap) => {
+        //     snap.forEach((usersnap) => {
+        //         var nameInfo = usersnap.val().userName;
+        //         var passInfo = usersnap.val().userPass;
+
+        //         if (obj.USERNAME === nameInfo && obj.PASSWORD === passInfo) {
+        //             checkForLogin = true;
+        //             localStorage.setItem("locallySavedName", obj.USERNAME);
+        //             console.log("yes");
+        //         }
+        //     })
+
+        //         if (checkForLogin === true) {
+        //             browserHistory.push("./donarslist")
+        //         }
+        //         else {
+        //             alert('Incorrect Information');
+        //         }
+        // })
 
     }
 
     render() {
         return (
             <div >
-                <div className="container" style={{ marginTop: '90px'}}>
+                <div className="container" style={{ marginTop: '90px' }}>
                     <div className="row">
                         <div className="col-md-6 col-md-offset-3">
                             <div className="panel panel-login" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)' }}>
@@ -93,14 +123,14 @@ export default class Login extends React.Component {
                                                 </div>
                                                 <div className="form-group text-center">
                                                     <input type="checkbox" className="" name="remember" id="remember" />
-                                                    <label style={{color: 'white'}} htmlFor="remember"> Remember Me</label>
+                                                    <label style={{ color: 'white' }} htmlFor="remember"> Remember Me</label>
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="row">
                                                         <div className="col-sm-6 col-sm-offset-3">
                                                             {/*<input type="submit" name="login-submit" style={{backgroundColor: '#5bc0de', color: 'white', borderColor:'#46b8da'}} id="login-submit" className="form-control btn btn-login" value="Login" />*/}
-                                                             {/*to={{ pathname: './donarslist' }} */}
-                                                             
+                                                            {/*to={{ pathname: './donarslist' }} */}
+
                                                             <Link onClick={this.logIn.bind(this)} style={{ backgroundColor: '#5bc0de', color: 'white', borderColor: '#46b8da' }} className="form-control btn btn-login">Login</Link>
                                                         </div>
                                                     </div>
@@ -109,7 +139,7 @@ export default class Login extends React.Component {
                                                     <div className="row">
                                                         <div className="col-lg-12">
                                                             <div className="text-center">
-                                                                <a href='#' className="forgot-password" style={{color: 'white'}}>Forgot Password?</a>
+                                                                <a href='#' className="forgot-password" style={{ color: 'white' }}>Forgot Password?</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -126,5 +156,6 @@ export default class Login extends React.Component {
             </div>
         )
     }
-
 }
+
+export const Login = connect(mapDispatchToComp)(LoginComp);

@@ -3,55 +3,59 @@ import React from 'react';
 import { Link } from 'react-router';
 import icon from '../../icons/signout.png';
 import Dp from '../../images/round.png';
-import * as firebase from 'firebase';
-import ActionBundle from '../actions/actionbundle.js';
+// import * as firebase from 'firebase';
+// import ActionBundle from '../actions/actionbundle.js';
 import { Store } from '../store/store.js';
 import { connect } from 'react-redux';
+import filteringMiddleware from '../store/middlewares/filteringMiddleware.js';
+
+
 
 function mapStateToComp(state) {
     return {
-        unSorted: state.Filter.unSort
-        // sorted: state.Filter.sortedAry
+        // unSorted: state.Filter.unSort
+        sorted: state.Filter
     }
 }
 
 function mapDispatchToComp(dispatch) {
     return {
-        sorting_array: (item) => { Store.dispatch(ActionBundle.SORTING_ARRAY(item)) },
-        send_selected_blood: (Bval, unSt) => { Store.dispatch(ActionBundle.SEND_SELECTED_BLOOD(Bval, unSt)) }
+        // sorting_array: (item) => { Store.dispatch(ActionBundle.SORTING_ARRAY(item)) },
+        // send_selected_blood: (Bval, unSt) => { Store.dispatch(ActionBundle.SEND_SELECTED_BLOOD(Bval, unSt)) }
+        filterBySelectedBlood: (Bval) => { Store.dispatch(filteringMiddleware.filterByGivenBlood(Bval)) }
     }
 }
 
 
 class RequiredBloodComp extends React.Component {
 
-    constructor(props) {
-        super(props)
+    // constructor(props) {
+    //     super(props)
 
-        this.state = {
-            list: []
-        }
-    }
+    //     this.state = {
+    //         list: []
+    //     }
+    // }
 
-    componentDidMount() {
-        var item = [];
-        firebase.database().ref('/DonarList').on('value', (snap) => {
-            snap.forEach((secSnap) => {
+    // componentDidMount() {
+    //     var item = [];
+    //     firebase.database().ref('/DonarList').on('value', (snap) => {
+    //         snap.forEach((secSnap) => {
 
-                item.push(secSnap.val());
-            })
+    //             item.push(secSnap.val());
+    //         })
 
-            this.getThatAry(item);
-        });
+    //         this.getThatAry(item);
+    //     });
 
-    }
+    // }
 
-    getThatAry(item) {
+    // getThatAry(item) {
 
-        this.props.sorting_array(item);
-    }
+    //     this.props.sorting_array(item);
+    // }
 
-    dynamicList() {
+    /*dynamicList() {
         return (
             <div>
                 {
@@ -59,20 +63,20 @@ class RequiredBloodComp extends React.Component {
                 }
             </div>
         )
-    }
+    }*/
 
     getDDValue(event) {
 
         var Bval = event.target.value;
-        this.props.send_selected_blood(Bval, this.props.unSorted);
+        this.props.filterBySelectedBlood(Bval);
 
         // this.setState({
         //     list: this.props.sorted
         // })
 
-        this.setState({
-            list: Store.getState().Filter.sortedAry
-        })
+        // this.setState({
+        //     list: Store.getState().Filter.sortedAry
+        // })
 
     }
 
@@ -117,12 +121,15 @@ class RequiredBloodComp extends React.Component {
                         <div className="panel panel-default widget">
                             <div className="panel-heading" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)' }}>
                                 <h3 className="panel-title" style={{ color: 'white', fontWeight: 'bold' }}>Matching Blood Group</h3>
-                                <span className="label label-info" style={{ width: '50px', fontSize: '12px' }}>{this.state.list.length}</span>
+                                <span className="label label-info" style={{ width: '50px', fontSize: '12px' }}>{this.props.sorted.length}</span>
                             </div>
                             <div className="panel-body">
 
                                 <ul className="list-group">
-                                    {this.dynamicList()}
+                                    {/*{this.dynamicList()}*/}
+                                    {
+                                        this.props.sorted.map((info, index) => { return <li key={index} style={{ cursor: 'pointer' }} className="list-group-item"> <div className="row"> <div className="col-xs-2 col-md-1"> <img src={Dp} className="img-circle img-responsive" alt="" /> </div> <div className="col-xs-10 col-md-11"> <div style={{ fontSize: '17px' }}><a href="http://bootsnipp.com/BhaumikPatel/snippets/Obgj">{info.userName}</a></div> <div> <span className="mic-info">Blood Group: </span>{info.userBlood}</div><div><span className="mic-info">Phone: </span>{info.userContact}</div><div><span className="mic-info">CNIC: </span>{info.userCnic}</div><div><span className="mic-info">Address: </span>{info.userAddress}</div>  </div> </div> </li> })
+                                    }
                                 </ul>
 
                             </div>

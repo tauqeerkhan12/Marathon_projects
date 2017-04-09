@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import './style.css';
 import icon from '../../icons/signout.png';
 import backicon from '../../icons/back.png';
+import donationformMiddleware from '../store/middlewares/donationformMiddleware.js';
 
 
 function mapStateToComp(state) {
@@ -17,7 +18,7 @@ function mapStateToComp(state) {
 
 function mapDispatchToComp(dispatch) {
     return {
-        add_me_to_list: (objInfo) => { Store.dispatch(ActionBundle.ADD_ME_TO_LIST(objInfo)) },
+        addDonar: (objInfo) => { Store.dispatch(donationformMiddleware.sendToDB(objInfo)) },
         off_alert: () => { Store.dispatch(ActionBundle.OFF_ALERT()) },
         invalid_fields: () => { Store.dispatch(ActionBundle.INVALID_FIELDS()) }
     }
@@ -83,9 +84,9 @@ class Donarinfo extends React.Component {
     listMe() {
         if (this.state.userAddress !== '' && this.state.userBlood !== '' && this.state.userCnic !== '' && this.state.userContact !== '' && this.state.userEmail !== '' && this.state.userName !== '') {
 
-            if (this.state.userEmail.search('@') != -1 && this.state.userEmail.search('.com') != -1) {
+            if (this.state.userEmail.search('@') !== -1 && this.state.userEmail.search('.com') !== -1) {
 
-                this.props.add_me_to_list(this.state)
+                this.props.addDonar(this.state)
             }
             else {
                 this.props.invalid_fields()

@@ -1,10 +1,11 @@
 
 export default class ActionBundle {
 
-    static ADD_ME_TO_LIST(objInfo) {
+    static ADD_ME_TO_LIST(B, N) {
         return {
             type: 'ADD_ME_TO_LIST',
-            donarInformation: objInfo
+            block: B,
+            none: N
         }
     }
 
@@ -20,18 +21,37 @@ export default class ActionBundle {
         }
     }
 
-    static SORTING_ARRAY(item){
-        return{
+    static SORTING_ARRAY(item) {
+        return {
             type: 'SORTING_ARRAY',
             unSortedAry: item
         }
     }
 
-    static SEND_SELECTED_BLOOD(Bval, unSt){
-      return {
-          type: 'SEND_SELECTED_BLOOD',
-          userBloodGroup: Bval,
-          unSortedAryFromFB: unSt
-      }   
+    static LIST_OF_BLOODGROUPS_YOU_CAN_TAKE(ls) {
+        return {
+            type: 'LIST_OF_BLOODGROUPS_YOU_CAN_TAKE',
+            filtered: ls
+        }
+    }
+
+    static IS_USER_CORRECT(val) {
+        return {
+            type: 'IS_USER_CORRECT',
+            tellmeTrueFalse: val
+        }
+    }
+
+    static FETCHLIST(ls) {
+        return {
+            type: 'FETCHLIST',
+            list: ls
+        }
     }
 }
+
+
+
+
+
+

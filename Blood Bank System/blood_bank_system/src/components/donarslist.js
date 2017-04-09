@@ -4,10 +4,25 @@ import { Link } from 'react-router';
 import './style.css';
 import icon from '../../icons/signout.png';
 import Dp from '../../images/round.png';
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
+import { connect } from 'react-redux';
+import { Store } from '../store/store.js';
+import donarlistMiddleware from '../store/middlewares/donarlistMiddleware.js';
 
 
-export default class Donarlist extends React.Component {
+function mapStateToComp(state) {
+    return {
+        wholeListOfDonar: state.donarlistReducer
+    }
+}
+
+function mapDispatchToComp(dispatch) {
+    return {
+        fetchMeTheDonarList: () => { Store.dispatch(donarlistMiddleware.fetchList()) }
+    }
+}
+
+class DonarlistComp extends React.Component {
 
     constructor(props) {
         super(props)
@@ -19,33 +34,37 @@ export default class Donarlist extends React.Component {
 
     componentDidMount() {
 
-        firebase.database().ref('/DonarList').on('value', (snap) => {
-            this.state.list = []
-            snap.forEach((secSnap) => {
+        this.props.fetchMeTheDonarList();
 
-                this.state.list.push(secSnap.val());
-            })
-            console.log("componentDidMount")
+        // firebase.database().ref('/DonarList').on('value', (snap) => {
+        //     this.state.list = []
+        //     snap.forEach((secSnap) => {
 
-            this.setState({
-                list: this.state.list
-            })
-        })
+        //         this.state.list.push(secSnap.val());
+        //     })
+        //     console.log("componentDidMount")
+
+        //     this.setState({
+        //         list: this.state.list
+        //     })
+        // })
     }
-    dynamicList() {
+
+    /*dynamicList() {
         return (
             <div>
                 {
-                    this.state.list.map((info, index) => { return <li key={index} style={{ cursor: 'pointer' }} className="list-group-item"> <div className="row"> <div className="col-xs-2 col-md-1"> <img src={Dp} className="img-circle img-responsive" alt="" /> </div> <div className="col-xs-10 col-md-11"> <div style={{ fontSize: '17px' }}><a href="#">{info.userName}</a></div> <div className="mic-info">Blood Group {info.userBlood}</div><div><span className="mic-info">Phone: </span>{info.userContact}</div><div><span className="mic-info">CNIC: </span>{info.userCnic}</div><div><span className="mic-info">Address: </span>{info.userAddress}</div>  </div> </div> </li> })
+                    this.props.wholeListOfDonar.map((info, index) => { return <li key={index} style={{ cursor: 'pointer' }} className="list-group-item"> <div className="row"> <div className="col-xs-2 col-md-1"> <img src={Dp} className="img-circle img-responsive" alt="" /> </div> <div className="col-xs-10 col-md-11"> <div style={{ fontSize: '17px' }}><a href="#">{info.userName}</a></div> <div className="mic-info">Blood Group {info.userBlood}</div><div><span className="mic-info">Phone: </span>{info.userContact}</div><div><span className="mic-info">CNIC: </span>{info.userCnic}</div><div><span className="mic-info">Address: </span>{info.userAddress}</div>  </div> </div> </li> })
                 }
             </div>
         )
-    }
+    }*/
 
     render() {
 
         return (
             <div>
+                {/*{console.log(this.props.wholeListOfDonar)}*/}
                 <div className="menu" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)' }}>
                     <div className="container-fluid">
                         <div className="navbar-header">
@@ -70,13 +89,14 @@ export default class Donarlist extends React.Component {
                         <div className="panel panel-default widget">
                             <div className="panel-heading" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)' }}>
                                 <h3 className="panel-title" style={{ color: 'white', fontWeight: 'bold' }}>Donars List</h3>
-                                <span className="label label-info" style={{ width: '50px', fontSize: '12px' }}>{this.state.list.length}</span>
+                                <span className="label label-info" style={{ width: '50px', fontSize: '12px' }}>{this.props.wholeListOfDonar.length}</span>
                             </div>
                             <div className="panel-body">
 
                                 <ul className="list-group">
-                                    {this.dynamicList()}
-                                    {console.log("render")}
+                                    {
+                                        this.props.wholeListOfDonar.map((info, index) => { return <li key={index} style={{ cursor: 'pointer' }} className="list-group-item"> <div className="row"> <div className="col-xs-2 col-md-1"> <img src={Dp} className="img-circle img-responsive" alt="" /> </div> <div className="col-xs-10 col-md-11"> <div style={{ fontSize: '17px' }}><a href="#">{info.userName}</a></div> <div className="mic-info">Blood Group {info.userBlood}</div><div><span className="mic-info">Phone: </span>{info.userContact}</div><div><span className="mic-info">CNIC: </span>{info.userCnic}</div><div><span className="mic-info">Address: </span>{info.userAddress}</div>  </div> </div> </li> })
+                                    }                                    
                                 </ul>
 
                             </div>
@@ -87,3 +107,5 @@ export default class Donarlist extends React.Component {
         )
     }
 }
+
+export const Donarlist = connect(mapStateToComp, mapDispatchToComp)(DonarlistComp)

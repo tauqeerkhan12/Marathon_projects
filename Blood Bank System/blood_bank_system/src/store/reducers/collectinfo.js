@@ -1,5 +1,5 @@
 
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 
 const INTIAL_STATE = {
     forGreen: "none",
@@ -12,9 +12,9 @@ export default function CollectInfo(state = INTIAL_STATE, action) {
 
         case 'ADD_ME_TO_LIST':
 
-            firebase.database().ref('/DonarList').push(action.donarInformation);
+            // firebase.database().ref('/DonarList').push(action.donarInformation);
             // console.log(action.donarInformation);
-            return state = { forGreen: 'block', forRed: 'none'}
+            return state = { forGreen: action.block, forRed: action.none}
 
         case 'OFF_ALERT':
             return state = { forGreen: 'none', forRed: 'none' }

@@ -1,12 +1,16 @@
 
-import { createStore } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import CollectInfo from './reducers/collectinfo.js';
 import Filter from './reducers/filter.js';
-import { combineReducers } from 'redux';
+import loginReducer from './reducers/loginReducer.js';
+import donarlistReducer from './reducers/donarlistReducer.js';
+import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
     CollectInfo,
-    Filter
+    Filter,
+    loginReducer,
+    donarlistReducer
 })
 
-export const Store = createStore(rootReducer);
+export const Store = createStore(rootReducer, applyMiddleware(thunk));

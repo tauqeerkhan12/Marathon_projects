@@ -49,7 +49,7 @@ export default class Register extends React.Component {
 
         if (this.state.nameTextbox !== '' && this.state.emailTextbox !== '' && this.state.passwordTextbox !== '' && this.state.confirmTextbox !== '') {
 
-            if (this.state.emailTextbox.search('@') != -1 && this.state.emailTextbox.search('.com') != -1) {
+            if (this.state.emailTextbox.search('@') !== -1 && this.state.emailTextbox.search('.com') !== -1) {
 
                 var obj = {
                     userName: this.state.nameTextbox,
