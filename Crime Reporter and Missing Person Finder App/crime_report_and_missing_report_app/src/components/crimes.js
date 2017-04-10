@@ -6,67 +6,34 @@ import './style.css';
 import ActionBundle from '../actions/actionbundle.js';
 import { Store } from '../store/store.js';
 import { connect } from 'react-redux';
+import signInMiddleware from '../middlewares/signInMiddleware.js';
+import signoutMiddleware from '../middlewares/signoutMiddleware';
+
 
 function mapStateToComp(state) {
     return {
-        complaint: state.OpenFeature.decideToShow
+        complaint: state.OpenFeature.decideToShow,
+        login: state.OpenFeature.signIN,
+        logout: state.OpenFeature.signOUT,
     }
 }
 
 function mapDispatchToComp(dispatch) {
     return {
-        reset: () => { Store.dispatch(ActionBundle.RESET()) }
+        reset: () => { Store.dispatch(ActionBundle.RESET()) },
+        signin: () => { Store.dispatch(signInMiddleware.SIGNIN()) },
+        signout: () => { Store.dispatch(signoutMiddleware.SIGNOUT()) }
     }
 }
-
-
-// var provider = new firebase.auth.FacebookAuthProvider();
-// firebase.auth().signInWithPopup(provider).then(function(result) {
-//     var token = result.credential.accessToken;
-//     var user = result.user;
-//     console.log(token);
-// }).catch(function (error) {
-//     var errorCode = error.code;
-//     var errorMessage = error.message;
-//     // The email of the user's account used.
-//     var email = error.email;
-//     // The firebase.auth.AuthCredential type that was used.
-//     var credential = error.credential;
-// })
-
 
 export class CrimesComp extends React.Component {
 
     facebookSignin() {
-
-        var provider = new firebase.auth.FacebookAuthProvider();
-
-        firebase.auth().signInWithPopup(provider)
-
-            .then(function (result) {
-                var token = result.credential.accessToken;
-                var user = result.user;
-
-                console.log(token)
-                console.log(user)
-            }).catch(function (error) {
-                console.log(error.code);
-                console.log(error.message);
-            });
+        this.props.signin();
     }
 
     facebookSignout() {
-
-        firebase.auth().signOut()
-
-            .then(function () {
-                console.log('Signout successful!')
-            }, function (error) {
-                console.log('Signout failed')
-            });
-
-        this.props.reset();
-        localStorage.removeItem('locallySavedName');
+        this.props.signout();
     }
 
     render() {
@@ -159,14 +126,13 @@ export class CrimesComp extends React.Component {
                                         <li className="dropdown">
                                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                                                 <i className="ti-settings"></i>
-                                                <p>Settings</p>
+                                                <p>Account</p>
                                                 <b className="caret"></b>
                                             </a>
                                             <ul className="dropdown-menu">
-                                                {/*to={{ pathname: './login' }}*/}
-                                                <li><Link onClick={this.facebookSignin.bind(this)}>Sign In</Link></li>
-                                                <li><Link onClick={this.facebookSignout.bind(this)} >Sign Out</Link></li>
-                                                {/*to={{ pathname: './signup' }}*/}
+                                                <li><Link onClick={this.facebookSignin.bind(this)} style={{ display: this.props.login, cursor: 'pointer' }} >Sign In</Link></li>
+                                                <li><Link onClick={this.facebookSignout.bind(this)} style={{ display: this.props.logout, cursor: 'pointer' }}>Sign Out</Link></li>
+                                                {console.log(this.props.login, this.props.logout)}
                                             </ul>
                                         </li>
                                     </ul>
@@ -290,14 +256,14 @@ export class CrimesComp extends React.Component {
                                                 <div className="form-group">
                                                     <select className="form-control form-control-selectpicker">
                                                         <option value="0">Select any City</option>
-                                                        <option value="A+">A+</option>
-                                                        <option value="B+">B+</option>
-                                                        <option value="AB+">AB+</option>
-                                                        <option value="O+">O+</option>
-                                                        <option value="A-">A-</option>
-                                                        <option value="B-">B-</option>
-                                                        <option value="AB-">AB-</option>
-                                                        <option value="O-">O-</option>
+                                                        <option value="Houston">Houston</option>
+                                                        <option value="San Antonio">San Antonio</option>
+                                                        <option value="Austin">Austin</option>
+                                                        <option value="Columbus">Columbus</option>
+                                                        <option value="Washington">Washington</option>
+                                                        <option value="Boston">Boston</option>
+                                                        <option value="Rochester">Rochester</option>
+                                                        <option value="Pueblo">Pueblo</option>
                                                     </select>
                                                 </div>
 

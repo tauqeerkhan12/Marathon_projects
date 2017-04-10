@@ -1,12 +1,10 @@
 
-import { createStore } from 'redux';
-import CollectInfo from './reducers/collectinfo.js';
+import { createStore,combineReducers, applyMiddleware } from 'redux';
 import OpenFeature from './reducers/openFeature.js';
-import { combineReducers } from 'redux';
+import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
-    CollectInfo,
-    OpenFeature
+    OpenFeature,    
 })
 
-export const Store = createStore(rootReducer);
+export const Store = createStore(rootReducer, applyMiddleware(thunk));

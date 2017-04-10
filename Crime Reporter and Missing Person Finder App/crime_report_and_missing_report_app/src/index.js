@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import { App } from './components/app.js';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { Crimes } from './components/crimes.js';
-import { Login } from './components/login.js';
-import { Signup } from './components/signup.js';
 import { ReportFile } from './components/reportFile.js';
 import { Store } from './store/store.js';
 import { Provider } from 'react-redux';
@@ -26,8 +24,6 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path='/' component={App}>
         <IndexRoute component={Crimes} />
-        <Route path='./login' component={Login} />
-        <Route path='./signup' component={Signup} />
         <Route path='./reportFile' component={ReportFile} />
       </Route>
     </Router>

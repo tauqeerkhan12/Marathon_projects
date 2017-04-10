@@ -4,22 +4,28 @@ import { Link } from 'react-router';
 import ActionBundle from '../actions/actionbundle.js';
 import { Store } from '../store/store.js';
 import { connect } from 'react-redux';
+import signInMiddleware from '../middlewares/signInMiddleware.js';
+import signoutMiddleware from '../middlewares/signoutMiddleware';
 
 function mapStateToComp(state) {
     return {
-        complaint: state.OpenFeature.decideToShow
+        complaint: state.OpenFeature.decideToShow,
+        login: state.OpenFeature.signIN,
+        logout: state.OpenFeature.signOUT,
     }
 }
 
 function mapDispatchToComp(dispatch) {
     return {
-        reset: () => { Store.dispatch(ActionBundle.RESET()) }
+        reset: () => { Store.dispatch(ActionBundle.RESET()) },
+        signin: () => { Store.dispatch(signInMiddleware.SIGNIN()) },
+        signout: () => { Store.dispatch(signoutMiddleware.SIGNOUT()) }
     }
 }
 
 class ReportFileComp extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -30,9 +36,12 @@ class ReportFileComp extends React.Component {
         }
     }
 
-    reset() {
-        this.props.reset();
-        localStorage.removeItem('locallySavedName');
+    facebookSignin() {
+        this.props.signin();
+    }
+
+    facebookSignout() {
+        this.props.signout();
     }
 
     reportType(event) {
@@ -93,7 +102,7 @@ class ReportFileComp extends React.Component {
                         <p>User Profile</p>
                     </a>
                 </li>*/}
-                            <li className="active" style={{ display: 'block' }} >
+                            <li className="active" style={{ display: this.props.complaint }} >
                                 <Link to={{ pathname: './reportFile' }}>
                                     <i className="ti-view-list-alt"></i>
                                     <p>Report a File</p>
@@ -151,12 +160,12 @@ class ReportFileComp extends React.Component {
                                     <li className="dropdown">
                                         <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                                             <i className="ti-settings"></i>
-                                            <p>Settings</p>
+                                            <p>Account</p>
                                             <b className="caret"></b>
                                         </a>
                                         <ul className="dropdown-menu">
-                                            <li><Link to={{ pathname: './login' }}>Log In</Link></li>
-                                            <li><Link onClick={this.reset.bind(this)} to={{ pathname: './signup' }}>Sign Out</Link></li>
+                                            <li><Link onClick={this.facebookSignin.bind(this)} style={{ display: this.props.login, cursor: 'pointer' }} >Sign In</Link></li>
+                                            <li><Link to={{pathname: '/'}} onClick={this.facebookSignout.bind(this)} style={{ display: this.props.logout, cursor: 'pointer' }}>Sign Out</Link></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -270,7 +279,3 @@ class ReportFileComp extends React.Component {
 }
 
 export const ReportFile = connect(mapStateToComp, mapDispatchToComp)(ReportFileComp);
-
-{/*<div>Report A file
-            <Link to={{ pathname: '/' }}>Back</Link>
-            </div>*/}
