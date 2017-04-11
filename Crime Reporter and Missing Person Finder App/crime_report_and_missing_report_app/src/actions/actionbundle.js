@@ -1,10 +1,9 @@
 
 export default class ActionBundle {
 
-    static ADD_ME_TO_LIST(userInfo) {
+    static ADD_ME_TO_LIST() {
         return {
-            type: 'ADD_ME_TO_LIST',
-            information: userInfo
+            type: 'ADD_ME_TO_LIST'
         }
     }
 
@@ -26,16 +25,25 @@ export default class ActionBundle {
             reported_crime: info
         }
     }
-    
+
     static SHOW_COMPLAINT() {
         return {
             type: 'SHOW_COMPLAINT'
         }
     }
 
-    static RESET(){
+    static RESET() {
         return {
             type: 'RESET'
+        }
+    }
+
+    static SHOW_DATA_ON_TABS(comp, miss, cri) {
+        return {
+            type: 'SHOW_DATA_ON_TABS',
+            complaintOBJ: comp,
+            missingOBJ: miss,
+            crimeOBJ: cri
         }
     }
 }

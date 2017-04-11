@@ -8,6 +8,8 @@ import { Store } from '../store/store.js';
 import { connect } from 'react-redux';
 import signInMiddleware from '../middlewares/signInMiddleware.js';
 import signoutMiddleware from '../middlewares/signoutMiddleware';
+import fetchReportMiddleware from '../middlewares/fetchReportMiddleware.js';
+import Dp from '../../images/round.png';
 
 
 function mapStateToComp(state) {
@@ -15,6 +17,9 @@ function mapStateToComp(state) {
         complaint: state.OpenFeature.decideToShow,
         login: state.OpenFeature.signIN,
         logout: state.OpenFeature.signOUT,
+        COMPLAINT: state.Tabs.complaintTab,
+        MISSING: state.Tabs.missingTab,
+        CRIME: state.Tabs.crimeTab
     }
 }
 
@@ -22,7 +27,8 @@ function mapDispatchToComp(dispatch) {
     return {
         reset: () => { Store.dispatch(ActionBundle.RESET()) },
         signin: () => { Store.dispatch(signInMiddleware.SIGNIN()) },
-        signout: () => { Store.dispatch(signoutMiddleware.SIGNOUT()) }
+        signout: () => { Store.dispatch(signoutMiddleware.SIGNOUT()) },
+        retrieveReports: (cityName) => { Store.dispatch(fetchReportMiddleware.fetchReport(cityName)) }
     }
 }
 
@@ -36,10 +42,15 @@ export class CrimesComp extends React.Component {
         this.props.signout();
     }
 
+    city(event) {
+        var cityName = event.target.value;
+        this.props.retrieveReports(cityName);
+    }
+
     render() {
         return (
             <div>
-
+                {console.log(this.props.CRIME, this.props.COMPLAINT, this.props.MISSING)}
                 <div className="wrapper">
                     <div className="sidebar" data-background-color="white" data-active-color="danger">
 
@@ -156,7 +167,7 @@ export class CrimesComp extends React.Component {
                                                     <div className="col-xs-7">
                                                         <div className="numbers">
                                                             <p>Total</p>
-                                                            14
+                                                            {this.props.CRIME.length+this.props.MISSING.length+this.props.COMPLAINT.length}
                                         </div>
                                                     </div>
                                                 </div>
@@ -181,7 +192,7 @@ export class CrimesComp extends React.Component {
                                                     <div className="col-xs-7">
                                                         <div className="numbers">
                                                             <p>Crime</p>
-                                                            5
+                                                            {this.props.CRIME.length}
                                         </div>
                                                     </div>
                                                 </div>
@@ -206,7 +217,7 @@ export class CrimesComp extends React.Component {
                                                     <div className="col-xs-7">
                                                         <div className="numbers">
                                                             <p>Missing</p>
-                                                            3
+                                                            {this.props.MISSING.length}
                                         </div>
                                                     </div>
                                                 </div>
@@ -231,7 +242,7 @@ export class CrimesComp extends React.Component {
                                                     <div className="col-xs-7">
                                                         <div className="numbers">
                                                             <p>Complaints</p>
-                                                            45
+                                                            {this.props.COMPLAINT.length}
                                         </div>
                                                     </div>
                                                 </div>
@@ -254,7 +265,7 @@ export class CrimesComp extends React.Component {
                                                 <p className="category">By city</p><br />
 
                                                 <div className="form-group">
-                                                    <select className="form-control form-control-selectpicker">
+                                                    <select className="form-control form-control-selectpicker" onChange={this.city.bind(this)}>
                                                         <option value="0">Select any City</option>
                                                         <option value="Houston">Houston</option>
                                                         <option value="San Antonio">San Antonio</option>
@@ -275,14 +286,51 @@ export class CrimesComp extends React.Component {
                                                         <div className="card">
                                                             <ul className="nav nav-tabs" role="tablist">
                                                                 <li role="presentation" className="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Crime</a></li>
+
+
                                                                 <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Missing</a></li>
+
+
                                                                 <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" style={{ display: this.props.complaint }}>Complaint</a></li>
                                                             </ul>
 
                                                             <div className="tab-content">
-                                                                <div role="tabpanel" className="tab-pane active" id="home"></div>
-                                                                <div role="tabpanel" className="tab-pane" id="profile"></div>
-                                                                <div role="tabpanel" className="tab-pane" id="messages"></div>
+                                                                <div role="tabpanel" className="tab-pane active" id="home">
+
+                                                                    <div className="panel panel-default widget">
+                                                                        <div className="panel-body">
+                                                                            <ul className="list-group">
+                                                                                {
+                                                                                    this.props.CRIME.map((info, index) => { return <li key={index} style={{ cursor: 'pointer' }} className="list-group-item"> <div className="row"> <div className="col-xs-2 col-md-1"> <img src={Dp} className="img-circle img-responsive" alt="" /> </div> <div className="col-xs-10 col-md-11"> <div style={{ fontSize: '17px' }}><a href="#">{info.loginUserName}</a></div> <div><span className="mic-info">Title: </span>{info.selectedTitle}</div><div><span className="mic-info">Discription: </span>{info.selectedDiscription}</div> </div> </div> </li> })
+                                                                                }
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div role="tabpanel" className="tab-pane" id="profile">
+                                                                    <div className="panel panel-default widget">
+                                                                        <div className="panel-body">
+                                                                            <ul className="list-group">
+                                                                                {
+                                                                                    this.props.MISSING.map((info, index) => { return <li key={index} style={{ cursor: 'pointer' }} className="list-group-item"> <div className="row"> <div className="col-xs-2 col-md-1"> <img src={Dp} className="img-circle img-responsive" alt="" /> </div> <div className="col-xs-10 col-md-11"> <div style={{ fontSize: '17px' }}><a href="#">{info.loginUserName}</a></div> <div><span className="mic-info">Title: </span>{info.selectedTitle}</div><div><span className="mic-info">Discription: </span>{info.selectedDiscription}</div> </div> </div> </li> })
+                                                                                }
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div role="tabpanel" className="tab-pane" id="messages">
+                                                                    <div className="panel panel-default widget">
+                                                                        <div className="panel-body">
+                                                                            <ul className="list-group">
+                                                                                {
+                                                                                    this.props.COMPLAINT.map((info, index) => { return <li key={index} style={{ cursor: 'pointer' }} className="list-group-item"> <div className="row"> <div className="col-xs-2 col-md-1"> <img src={Dp} className="img-circle img-responsive" alt="" /> </div> <div className="col-xs-10 col-md-11"> <div style={{ fontSize: '17px' }}><a href="#">{info.loginUserName}</a></div> <div><span className="mic-info">Title: </span>{info.selectedTitle}</div><div><span className="mic-info">Discription: </span>{info.selectedDiscription}</div> </div> </div> </li> })
+                                                                                }
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 <div role="tabpanel" className="tab-pane" id="settings"></div>
                                                             </div>
                                                         </div>

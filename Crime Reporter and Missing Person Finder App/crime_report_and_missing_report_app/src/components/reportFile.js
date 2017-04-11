@@ -6,20 +6,25 @@ import { Store } from '../store/store.js';
 import { connect } from 'react-redux';
 import signInMiddleware from '../middlewares/signInMiddleware.js';
 import signoutMiddleware from '../middlewares/signoutMiddleware';
+import reportAFile from '../middlewares/reportAFile';
 
 function mapStateToComp(state) {
     return {
         complaint: state.OpenFeature.decideToShow,
         login: state.OpenFeature.signIN,
         logout: state.OpenFeature.signOUT,
+        green: state.validation.forGreen,
+        red: state.validation.forRed
     }
 }
 
 function mapDispatchToComp(dispatch) {
     return {
         reset: () => { Store.dispatch(ActionBundle.RESET()) },
+        offalert: () => { Store.dispatch(ActionBundle.OFF_ALERT()) },
         signin: () => { Store.dispatch(signInMiddleware.SIGNIN()) },
-        signout: () => { Store.dispatch(signoutMiddleware.SIGNOUT()) }
+        signout: () => { Store.dispatch(signoutMiddleware.SIGNOUT()) },
+        reportafile: (fullInfo) => { Store.dispatch(reportAFile.reportAFile(fullInfo)) }
     }
 }
 
@@ -32,7 +37,8 @@ class ReportFileComp extends React.Component {
             selectedReportType: '',
             selectedArea: '',
             selectedTitle: '',
-            selectedDiscription: ''
+            selectedDiscription: '',
+            loginUserName: localStorage.getItem('locallySavedName')
         }
     }
 
@@ -49,6 +55,7 @@ class ReportFileComp extends React.Component {
         this.setState({
             selectedReportType: v
         })
+        this.props.offalert();
     }
 
     area(event) {
@@ -56,6 +63,7 @@ class ReportFileComp extends React.Component {
         this.setState({
             selectedArea: v
         })
+        this.props.offalert();
     }
 
     Title(event) {
@@ -63,6 +71,7 @@ class ReportFileComp extends React.Component {
         this.setState({
             selectedTitle: v
         })
+        this.props.offalert();
     }
 
     Description(event) {
@@ -70,10 +79,18 @@ class ReportFileComp extends React.Component {
         this.setState({
             selectedDiscription: v
         })
+        this.props.offalert();
     }
 
-    submitReport(event) {
-        console.log(this.state);
+    submitReport() {
+        this.props.reportafile(this.state);
+
+        this.setState({
+            selectedReportType: '',
+            selectedArea: '',
+            selectedTitle: '',
+            selectedDiscription: ''
+        })
     }
 
 
@@ -165,7 +182,7 @@ class ReportFileComp extends React.Component {
                                         </a>
                                         <ul className="dropdown-menu">
                                             <li><Link onClick={this.facebookSignin.bind(this)} style={{ display: this.props.login, cursor: 'pointer' }} >Sign In</Link></li>
-                                            <li><Link to={{pathname: '/'}} onClick={this.facebookSignout.bind(this)} style={{ display: this.props.logout, cursor: 'pointer' }}>Sign Out</Link></li>
+                                            <li><Link to={{ pathname: '/' }} onClick={this.facebookSignout.bind(this)} style={{ display: this.props.logout, cursor: 'pointer' }}>Sign Out</Link></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -219,7 +236,7 @@ class ReportFileComp extends React.Component {
                                             <form>
                                                 <div className="form-group">
                                                     <label>Report Type</label>
-                                                    <select className="form-control form-control-selectpicker" onChange={this.reportType.bind(this)} style={{ marginBottom: '20px' }}>
+                                                    <select className="form-control form-control-selectpicker" value={this.state.selectedReportType} onChange={this.reportType.bind(this)} style={{ marginBottom: '20px' }}>
                                                         <option value="0">Type</option>
                                                         <option value="Crime">Crime</option>
                                                         <option value="Missing">Missing</option>
@@ -229,16 +246,16 @@ class ReportFileComp extends React.Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label>Area</label>
-                                                    <select onChange={this.area.bind(this)} className="form-control form-control-selectpicker" >
-                                                        <option value="0">Select Area</option>
-                                                        <option value="GEORGIA">GEORGIA </option>
-                                                        <option value="FLORIDA">FLORIDA</option>
-                                                        <option value="COLORADO">COLORADO </option>
-                                                        <option value="CALIFORNIA">CALIFORNIA </option>
-                                                        <option value="WASHINGTON">WASHINGTON  </option>
-                                                        <option value="TEXAS">TEXAS </option>
-                                                        <option value="NEVADA">NEVADA</option>
-                                                        <option value="NEW YORK">NEW YORK</option>
+                                                    <select onChange={this.area.bind(this)} value={this.state.selectedArea} className="form-control form-control-selectpicker" >
+                                                        <option value="0">Select any City</option>
+                                                        <option value="Houston">Houston</option>
+                                                        <option value="San Antonio">San Antonio</option>
+                                                        <option value="Austin">Austin</option>
+                                                        <option value="Columbus">Columbus</option>
+                                                        <option value="Washington">Washington</option>
+                                                        <option value="Boston">Boston</option>
+                                                        <option value="Rochester">Rochester</option>
+                                                        <option value="Pueblo">Pueblo</option>
                                                     </select>
                                                 </div>
 
@@ -246,7 +263,7 @@ class ReportFileComp extends React.Component {
                                                     <div className="col-md-12">
                                                         <div className="form-group">
                                                             <label>Title</label>
-                                                            <input onChange={this.Title.bind(this)} type="text" className="form-control border-input" placeholder="Here can be your title" />
+                                                            <input onChange={this.Title.bind(this)} value={this.state.selectedTitle} type="text" className="form-control border-input" placeholder="Here can be your title" value={this.state.selectedTitle} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -255,7 +272,7 @@ class ReportFileComp extends React.Component {
                                                     <div className="col-md-12">
                                                         <div className="form-group">
                                                             <label>Description</label>
-                                                            <textarea onChange={this.Description.bind(this)} rows="5" className="form-control border-input" placeholder="Here can be your description" ></textarea>
+                                                            <textarea value={this.state.selectedDiscription} onChange={this.Description.bind(this)} rows="5" className="form-control border-input" placeholder="Here can be your description" ></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -267,9 +284,14 @@ class ReportFileComp extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
+                        </div>
+                        <div className="alert alert-success" style={{ display: this.props.green }}>
+                            <strong>You have Successfull Reported!</strong>
+                        </div>
+
+                        <div className="alert alert-danger" style={{ display: this.props.red }}>
+                            <strong>Sorry Invalid Fields!</strong>
                         </div>
                     </div>
                 </div>
