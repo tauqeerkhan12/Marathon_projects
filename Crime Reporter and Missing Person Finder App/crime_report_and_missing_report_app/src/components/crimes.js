@@ -161,7 +161,7 @@ export class CrimesComp extends React.Component {
                                                 <div className="row">
                                                     <div className="col-xs-5">
                                                         <div className="icon-big icon-warning text-center">
-                                                            <i className="ti-server"></i>
+                                                            <i className="fa fa-bar-chart"></i>
                                                         </div>
                                                     </div>
                                                     <div className="col-xs-7">
@@ -186,7 +186,7 @@ export class CrimesComp extends React.Component {
                                                 <div className="row">
                                                     <div className="col-xs-5">
                                                         <div className="icon-big icon-success text-center">
-                                                            <i className="ti-wallet"></i>
+                                                            <i className="fa fa-sign-language"></i>
                                                         </div>
                                                     </div>
                                                     <div className="col-xs-7">
@@ -211,7 +211,7 @@ export class CrimesComp extends React.Component {
                                                 <div className="row">
                                                     <div className="col-xs-5">
                                                         <div className="icon-big icon-danger text-center">
-                                                            <i className="ti-pulse"></i>
+                                                            <i className="fa fa-user-times"></i>
                                                         </div>
                                                     </div>
                                                     <div className="col-xs-7">
@@ -236,7 +236,7 @@ export class CrimesComp extends React.Component {
                                                 <div className="row">
                                                     <div className="col-xs-5">
                                                         <div className="icon-big icon-info text-center">
-                                                            <i className="ti-twitter-alt"></i>
+                                                            <i className="fa fa-legal"></i>
                                                         </div>
                                                     </div>
                                                     <div className="col-xs-7">
