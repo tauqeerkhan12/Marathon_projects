@@ -19,12 +19,12 @@ export default class ActionBundle {
         }
     }
 
-    static CRIME_INFO(info) {
-        return {
-            type: 'CRIME_INFO',
-            reported_crime: info
-        }
-    }
+    // static CRIME_INFO(info) {
+    //     return {
+    //         type: 'CRIME_INFO',
+    //         reported_crime: info
+    //     }
+    // }
 
     static SHOW_COMPLAINT() {
         return {
@@ -44,6 +44,16 @@ export default class ActionBundle {
             complaintOBJ: comp,
             missingOBJ: miss,
             crimeOBJ: cri
+        }
+    }
+
+    static TOTAL_REPORTS(comp, miss, cri, totl){
+        return {
+            type: 'TOTAL_REPORTS',
+            totalComp: comp,
+            totalMiss: miss,
+            totalCri: cri,
+            total: totl
         }
     }
 }

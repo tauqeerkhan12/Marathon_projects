@@ -263,7 +263,7 @@ class ReportFileComp extends React.Component {
                                                     <div className="col-md-12">
                                                         <div className="form-group">
                                                             <label>Title</label>
-                                                            <input onChange={this.Title.bind(this)} value={this.state.selectedTitle} type="text" className="form-control border-input" placeholder="Here can be your title" value={this.state.selectedTitle} />
+                                                            <input onChange={this.Title.bind(this)} value={this.state.selectedTitle} type="text" className="form-control border-input" placeholder="Here can be your title" />
                                                         </div>
                                                     </div>
                                                 </div>

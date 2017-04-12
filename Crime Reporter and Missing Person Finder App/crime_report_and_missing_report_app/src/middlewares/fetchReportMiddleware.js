@@ -15,17 +15,17 @@ export default class fetchReportMiddleware {
             var refer = firebase.database().ref('/' + cityName);
             refer.on('value', (snap) => {
                 snap.forEach((snapShot) => {
-                    if (snapShot.key == 'Complaint') {
+                    if (snapShot.key === 'Complaint') {
                         snapShot.forEach((snp) => {
                             complaint.push(snp.val())
                         })
                     }
-                    else if (snapShot.key == 'Missing') {
+                    else if (snapShot.key === 'Missing') {
                         snapShot.forEach((snp) => {
                             missing.push(snp.val())
                         })
                     }
-                    else if (snapShot.key == 'Crime') {
+                    else if (snapShot.key === 'Crime') {
                         snapShot.forEach((snp) => {
                             crime.push(snp.val())
                         })

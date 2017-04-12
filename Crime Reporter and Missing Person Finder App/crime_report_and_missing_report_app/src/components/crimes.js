@@ -1,7 +1,6 @@
 import React from 'react';
 import './style.css';
 import { Link } from 'react-router';
-import * as firebase from 'firebase';
 import './style.css';
 import ActionBundle from '../actions/actionbundle.js';
 import { Store } from '../store/store.js';
@@ -9,6 +8,8 @@ import { connect } from 'react-redux';
 import signInMiddleware from '../middlewares/signInMiddleware.js';
 import signoutMiddleware from '../middlewares/signoutMiddleware';
 import fetchReportMiddleware from '../middlewares/fetchReportMiddleware.js';
+import countAllReports from '../middlewares/countAllReports.js';
+
 import Dp from '../../images/round.png';
 
 
@@ -19,7 +20,12 @@ function mapStateToComp(state) {
         logout: state.OpenFeature.signOUT,
         COMPLAINT: state.Tabs.complaintTab,
         MISSING: state.Tabs.missingTab,
-        CRIME: state.Tabs.crimeTab
+        CRIME: state.Tabs.crimeTab,
+        TOTALCOMPLAINT: state.Tabs.totalComplaint,
+        TOTALMISSING: state.Tabs.totalMissing,
+        TOTALCRIMES: state.Tabs.totalCrimes,
+        TOTAL: state.Tabs.Total
+
     }
 }
 
@@ -28,11 +34,33 @@ function mapDispatchToComp(dispatch) {
         reset: () => { Store.dispatch(ActionBundle.RESET()) },
         signin: () => { Store.dispatch(signInMiddleware.SIGNIN()) },
         signout: () => { Store.dispatch(signoutMiddleware.SIGNOUT()) },
-        retrieveReports: (cityName) => { Store.dispatch(fetchReportMiddleware.fetchReport(cityName)) }
+        retrieveReports: (cityName) => { Store.dispatch(fetchReportMiddleware.fetchReport(cityName)) },
+        allreports: () => { Store.dispatch(countAllReports.countAllReports()) }
     }
 }
 
 export class CrimesComp extends React.Component {
+
+    constructor(props) {
+        super(props)
+
+        this.props.allreports();
+
+        this.state = {
+            runIt: true
+        }
+    }
+
+    showTotal() {
+
+        this.state = {
+            TC: this.props.TOTALCOMPLAINT,
+            TM: this.props.TOTALMISSING,
+            TCR: this.props.TOTALCRIMES,
+            TT: this.props.TOTAL,
+            runIt: true
+        }
+    }
 
     facebookSignin() {
         this.props.signin();
@@ -45,19 +73,25 @@ export class CrimesComp extends React.Component {
     city(event) {
         var cityName = event.target.value;
         this.props.retrieveReports(cityName);
+
+        this.setState({
+            TC: Store.getState().Tabs.complaintTab.length,
+            TM: Store.getState().Tabs.missingTab.length,
+            TCR: Store.getState().Tabs.crimeTab.length,
+            TT: Store.getState().Tabs.crimeTab.length + Store.getState().Tabs.missingTab.length + Store.getState().Tabs.complaintTab.length,
+            runIt: false
+        })
     }
 
     render() {
+        if (this.state.runIt == true) {
+            this.showTotal();
+        }
+        console.log('render');
         return (
             <div>
-                {console.log(this.props.CRIME, this.props.COMPLAINT, this.props.MISSING)}
                 <div className="wrapper">
                     <div className="sidebar" data-background-color="white" data-active-color="danger">
-
-
-                        {/*Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"*/}
-
 
                         <div className="sidebar-wrapper">
                             <div className="logo">
@@ -167,15 +201,15 @@ export class CrimesComp extends React.Component {
                                                     <div className="col-xs-7">
                                                         <div className="numbers">
                                                             <p>Total</p>
-                                                            {this.props.CRIME.length+this.props.MISSING.length+this.props.COMPLAINT.length}
-                                        </div>
+                                                            {this.state.TT}
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="footer">
                                                     <hr />
                                                     <div className="stats">
-                                                        <i className="ti-reload"></i> Updated now
-                                    </div>
+                                                        {/*<i className="ti-reload"></i> Updated now*/}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -192,15 +226,15 @@ export class CrimesComp extends React.Component {
                                                     <div className="col-xs-7">
                                                         <div className="numbers">
                                                             <p>Crime</p>
-                                                            {this.props.CRIME.length}
-                                        </div>
+                                                            {this.state.TCR}
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="footer">
                                                     <hr />
                                                     <div className="stats">
-                                                        <i className="ti-calendar"></i> Last day
-                                    </div>
+                                                        {/*<i className="ti-calendar"></i> Last day*/}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -217,15 +251,15 @@ export class CrimesComp extends React.Component {
                                                     <div className="col-xs-7">
                                                         <div className="numbers">
                                                             <p>Missing</p>
-                                                            {this.props.MISSING.length}
-                                        </div>
+                                                            {this.state.TM}
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="footer">
                                                     <hr />
                                                     <div className="stats">
-                                                        <i className="ti-timer"></i> In the last hour
-                                    </div>
+                                                        {/*<i className="ti-timer"></i> In the last hour*/}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -242,8 +276,8 @@ export class CrimesComp extends React.Component {
                                                     <div className="col-xs-7">
                                                         <div className="numbers">
                                                             <p>Complaints</p>
-                                                            {this.props.COMPLAINT.length}
-                                        </div>
+                                                            {this.state.TC}
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="footer">
@@ -358,13 +392,12 @@ export class CrimesComp extends React.Component {
                             </div>
                         </div>
 
-
-
                     </div>
                 </div>
 
 
             </div>
+
         )
     }
 }
