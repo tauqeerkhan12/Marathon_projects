@@ -9,12 +9,11 @@ import { Store } from '../store/store.js';
 // import ActionBundle from '../actions/actionbundle.js';
 import loginMiddleware from '../store/middlewares/loginMiddleware.js';
 
-// i am not using loginStatus
-// function mapStateToComp(state) {
-//     return {
-//         loginStatus: state.loginReducer   
-//     }
-// }
+function mapStateToComp(state) {
+    return {
+        loginStatus: state.loginReducer
+    }
+}
 
 function mapDispatchToComp(dispatch) {
     return {
@@ -49,8 +48,8 @@ class LoginComp extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log(Store.getState().loginReducer)
-        if (Store.getState().loginReducer === true) {
+
+        if (this.props.loginStatus === true) {
             browserHistory.push("./donarslist")
         }
     }
@@ -64,9 +63,7 @@ class LoginComp extends React.Component {
 
         this.props.isUserCorrect(obj)
 
-        this.setState({
-            checkForLogin: Store.getState().loginReducer
-        })
+        this.forceUpdate();
 
 
         // var refer = firebase.database().ref();
@@ -158,4 +155,4 @@ class LoginComp extends React.Component {
     }
 }
 
-export const Login = connect(mapDispatchToComp)(LoginComp);
+export const Login = connect(mapStateToComp, mapDispatchToComp)(LoginComp);

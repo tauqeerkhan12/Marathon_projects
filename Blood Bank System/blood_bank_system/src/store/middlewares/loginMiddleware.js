@@ -7,7 +7,7 @@ export default class loginMiddleware {
     static login(data) {
 
         return (dispatch) => {
-
+            var isUserVerified = false;
             var refer = firebase.database().ref();
             refer.once('value', (snap) => {
                 snap.forEach((usersnap) => {
@@ -19,11 +19,14 @@ export default class loginMiddleware {
                         localStorage.setItem("locallySavedName", data.USERNAME);
                         console.log("yes");
                         dispatch(ActionBundle.IS_USER_CORRECT(true))
-                    }
-                    else{
-                        dispatch(ActionBundle.IS_USER_CORRECT(false))
+                        isUserVerified = true;
                     }
                 })
+
+                if(isUserVerified === false){
+                    console.log('Incorrect Information');
+                    dispatch(ActionBundle.IS_USER_CORRECT(false))
+                }
 
             })
 

@@ -65,6 +65,10 @@ class RequiredBloodComp extends React.Component {
         )
     }*/
 
+    clearList() {
+        Store.dispatch({ type: 'CLEAR' })
+    }
+
     getDDValue(event) {
 
         var Bval = event.target.value;
@@ -91,7 +95,7 @@ class RequiredBloodComp extends React.Component {
                         </div>
                         <div>
                             <ul className="nav navbar-nav navbar-right">
-                                <li><Link to={{ pathname: '/' }}><span><img src={icon} alt="signout" /> </span>Sign out</Link></li>
+                                <li onClick={this.clearList.bind(this)}><Link to={{ pathname: '/' }}><span><img src={icon} alt="signout" /> </span>Sign out</Link></li>
                                 {/*<li><a href="#"><span className="glyphicon glyphicon-log-in"></span> Login</a></li>*/}
                             </ul>
                         </div>
@@ -101,7 +105,7 @@ class RequiredBloodComp extends React.Component {
                 <div className="container" style={{ paddingTop: '80px' }}>
                     <div className="row">
 
-                        <Link className="btn btn-danger" role="button" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)', fontSize: '17px', marginBottom: '10px', marginLeft: '5px' }} to={{ pathname: './donarslist' }}>Back</Link>
+                        <Link className="btn btn-danger" role="button" style={{ background: 'linear-gradient(to left, #e52d27 , #b31217)', fontSize: '17px', marginBottom: '10px', marginLeft: '5px' }} to={{ pathname: './donarslist' }} onClick={this.clearList.bind(this)}>Back</Link>
 
                         <div className="form-group" style={{ marginBottom: '40px', width: '350px' }}>
 

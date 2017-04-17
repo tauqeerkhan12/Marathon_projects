@@ -121,8 +121,10 @@ export default function Filter(state = [], action) {
 
             return state = action.filtered
 
+        case 'CLEAR':
+            return state = []
+
         default:
             return state;
     }
-
 }

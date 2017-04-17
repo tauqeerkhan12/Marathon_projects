@@ -5,6 +5,7 @@ import './style.css';
 import icon from '../../icons/signout.png';
 import Dp from '../../images/round.png';
 // import * as firebase from 'firebase';
+import ActionBundle from '../actions/actionbundle.js';
 import { connect } from 'react-redux';
 import { Store } from '../store/store.js';
 import donarlistMiddleware from '../store/middlewares/donarlistMiddleware.js';
@@ -72,7 +73,7 @@ class DonarlistComp extends React.Component {
                         </div>
                         <div>
                             <ul className="nav navbar-nav navbar-right">
-                                <li><Link to={{ pathname: '/' }}><span><img src={icon} alt="signout" /> </span>Sign out</Link></li>
+                                <li onClick={() => { return Store.dispatch(ActionBundle.IS_USER_CORRECT(false)) }}><Link to={{ pathname: '/' }}><span><img src={icon} alt="signout" /> </span>Sign out</Link></li>
                                 {/*<li><a href="#"><span className="glyphicon glyphicon-log-in"></span> Login</a></li>*/}
                             </ul>
                         </div>
@@ -96,7 +97,7 @@ class DonarlistComp extends React.Component {
                                 <ul className="list-group">
                                     {
                                         this.props.wholeListOfDonar.map((info, index) => { return <li key={index} style={{ cursor: 'pointer' }} className="list-group-item"> <div className="row"> <div className="col-xs-2 col-md-1"> <img src={Dp} className="img-circle img-responsive" alt="" /> </div> <div className="col-xs-10 col-md-11"> <div style={{ fontSize: '17px' }}><a href="#">{info.userName}</a></div> <div className="mic-info">Blood Group {info.userBlood}</div><div><span className="mic-info">Phone: </span>{info.userContact}</div><div><span className="mic-info">CNIC: </span>{info.userCnic}</div><div><span className="mic-info">Address: </span>{info.userAddress}</div>  </div> </div> </li> })
-                                    }                                    
+                                    }
                                 </ul>
 
                             </div>
