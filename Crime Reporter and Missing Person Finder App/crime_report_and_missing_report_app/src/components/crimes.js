@@ -204,13 +204,7 @@ export class CrimesComp extends React.Component {
                                                             {this.state.TT}
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="footer">
-                                                    <hr />
-                                                    <div className="stats">
-                                                        {/*<i className="ti-reload"></i> Updated now*/}
-                                                    </div>
-                                                </div>
+                                                </div>                                                
                                             </div>
                                         </div>
                                     </div>
@@ -229,13 +223,7 @@ export class CrimesComp extends React.Component {
                                                             {this.state.TCR}
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="footer">
-                                                    <hr />
-                                                    <div className="stats">
-                                                        {/*<i className="ti-calendar"></i> Last day*/}
-                                                    </div>
-                                                </div>
+                                                </div>                                                
                                             </div>
                                         </div>
                                     </div>
@@ -254,13 +242,7 @@ export class CrimesComp extends React.Component {
                                                             {this.state.TM}
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="footer">
-                                                    <hr />
-                                                    <div className="stats">
-                                                        {/*<i className="ti-timer"></i> In the last hour*/}
-                                                    </div>
-                                                </div>
+                                                </div>                                                
                                             </div>
                                         </div>
                                     </div>
@@ -279,12 +261,6 @@ export class CrimesComp extends React.Component {
                                                             {this.state.TC}
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="footer">
-                                                    <hr />
-                                                    <div className="stats">
-                                                        <i className="ti-reload"></i> Updated now
-                                    </div>
                                                 </div>
                                             </div>
                                         </div>
