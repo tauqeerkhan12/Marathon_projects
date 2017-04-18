@@ -2,6 +2,8 @@
 
 import ActionBundle from '../actions/actionbundle.js';
 import * as firebase from 'firebase';
+import { Store } from '../store/store.js';
+
 
 export default class countAllReports {
 
@@ -14,11 +16,11 @@ export default class countAllReports {
             var complaint = 0;
 
             firebase.database().ref('/').on('value', (citySnap) => {
-                missing=0; crimes=0; complaint=0;
+                missing = 0; crimes = 0; complaint = 0;
                 citySnap.forEach((cityOneByOneSnap) => {
 
                     cityOneByOneSnap.forEach((reports) => {
-                        if (reports.key === 'Complaint') {
+                        if (reports.key === 'Complaint' && Store.getState().OpenFeature.decideToShow == 'block') {
 
                             complaint = complaint + Object.keys(reports.val()).length
                         }

@@ -9,8 +9,14 @@ import signInMiddleware from '../middlewares/signInMiddleware.js';
 import signoutMiddleware from '../middlewares/signoutMiddleware';
 import fetchReportMiddleware from '../middlewares/fetchReportMiddleware.js';
 import countAllReports from '../middlewares/countAllReports.js';
+import * as firebase from 'firebase';
 
 import Dp from '../../images/round.png';
+import totalIcon from '../../images/total.png';
+import crimeIcon from '../../images/crime.png';
+import missingIcon from '../../images/missing.png';
+import complaintIcon from '../../images/complaint.png';
+
 
 
 function mapStateToComp(state) {
@@ -195,7 +201,8 @@ export class CrimesComp extends React.Component {
                                                 <div className="row">
                                                     <div className="col-xs-5">
                                                         <div className="icon-big icon-warning text-center">
-                                                            <i className="fa fa-bar-chart"></i>
+                                                            {/*<i className="fa fa-bar-chart"></i>*/}
+                                                            <img src={totalIcon} alt=""/>
                                                         </div>
                                                     </div>
                                                     <div className="col-xs-7">
@@ -204,7 +211,7 @@ export class CrimesComp extends React.Component {
                                                             {this.state.TT}
                                                         </div>
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -214,7 +221,8 @@ export class CrimesComp extends React.Component {
                                                 <div className="row">
                                                     <div className="col-xs-5">
                                                         <div className="icon-big icon-success text-center">
-                                                            <i className="fa fa-sign-language"></i>
+                                                            {/*<i className="fa fa-sign-language"></i>*/}
+                                                            <img src={crimeIcon} alt=""/>
                                                         </div>
                                                     </div>
                                                     <div className="col-xs-7">
@@ -223,7 +231,7 @@ export class CrimesComp extends React.Component {
                                                             {this.state.TCR}
                                                         </div>
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -233,7 +241,8 @@ export class CrimesComp extends React.Component {
                                                 <div className="row">
                                                     <div className="col-xs-5">
                                                         <div className="icon-big icon-danger text-center">
-                                                            <i className="fa fa-user-times"></i>
+                                                            {/*<i className="fa fa-user-times"></i>*/}
+                                                            <img src={missingIcon} alt=""/>
                                                         </div>
                                                     </div>
                                                     <div className="col-xs-7">
@@ -242,7 +251,7 @@ export class CrimesComp extends React.Component {
                                                             {this.state.TM}
                                                         </div>
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -252,7 +261,8 @@ export class CrimesComp extends React.Component {
                                                 <div className="row">
                                                     <div className="col-xs-5">
                                                         <div className="icon-big icon-info text-center">
-                                                            <i className="fa fa-legal"></i>
+                                                            {/*<i className="fa fa-legal"></i>*/}
+                                                            <img src={complaintIcon} alt=""/>
                                                         </div>
                                                     </div>
                                                     <div className="col-xs-7">
